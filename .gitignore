@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+rpg_dm_env/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Streamlit
+.streamlit/
+
+# Character files (keep structure but ignore content)
+characters/*.json
+!characters/.gitkeep
+
+# Journal files
+journals/
+!journals/.gitkeep
+
+# Media files
+media/
+!media/.gitkeep
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Temporary files
+*.tmp
+*.temp

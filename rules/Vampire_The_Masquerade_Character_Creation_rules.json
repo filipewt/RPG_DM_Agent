@@ -1,0 +1,72 @@
+{
+  "character_creation": {
+    "steps": [
+      "1. Concept: Define who the character was and their motivation.",
+      "2. Clan (Vampire) or Background (Mortal): Choose lineage or role in society.",
+      "3. Attributes: Assign points among Physical, Social, and Mental categories.",
+      "4. Skills: Assign points based on archetype or concept.",
+      "5. Disciplines (Vampires only): Choose powers granted by clan and predator type.",
+      "6. Advantages & Flaws: Choose merits, flaws, and backgrounds.",
+      "7. Predator Type (Vampires only): Defines feeding style and initial bonuses.",
+      "8. Humanity & Willpower: Record moral and mental resilience.",
+      "9. Hunger (Vampires) or Health (Mortals): Establish blood need or vitality.",
+      "10. Chronicle Tenets & Convictions: Define beliefs and story tone."
+    ],
+    "attributes": {
+      "categories": {
+        "physical": ["Strength", "Dexterity", "Stamina"],
+        "social": ["Charisma", "Manipulation", "Composure"],
+        "mental": ["Intelligence", "Wits", "Resolve"]
+      },
+      "distribution_vampire": "1 Attribute at 4 dots, 3 at 3 dots, 4 at 2 dots, 1 at 1 dot",
+      "distribution_mortal": "1 Attribute at 4 dots, 3 at 3 dots, 4 at 2 dots, 1 at 1 dot (same as vampire)"
+    },
+    "skills": {
+      "categories": {
+        "physical": ["Athletics", "Brawl", "Craft", "Drive", "Firearms", "Larceny", "Melee", "Stealth", "Survival"],
+        "social": ["Animal Ken", "Etiquette", "Insight", "Intimidation", "Leadership", "Performance", "Persuasion", "Streetwise", "Subterfuge"],
+        "mental": ["Academics", "Awareness", "Finance", "Investigation", "Medicine", "Occult", "Politics", "Science", "Technology"]
+      },
+      "distribution_vampire": "1 Skill at 4 dots, 2 at 3 dots, 3 at 2 dots, 7 at 1 dot",
+      "distribution_mortal": "1 Skill at 3 dots, 3 at 2 dots, 5 at 1 dot"
+    },
+    "vampire_specific": {
+      "clan_examples": ["Brujah", "Toreador", "Ventrue", "Gangrel", "Nosferatu", "Malkavian", "Tremere"],
+      "disciplines": "Choose 2–3 powers; 2 dots from clan disciplines and 1 from Predator Type bonus.",
+      "predator_types": {
+        "examples": {
+          "Alleycat": "Violent hunter — +1 Strength, +1 Brawl, Discipline: Potence",
+          "Bagger": "Feeds from stolen blood — +1 Stealth, +1 Larceny, Discipline: Obfuscate",
+          "Siren": "Feeds through seduction — +1 Manipulation, +1 Persuasion, Discipline: Presence"
+        }
+      },
+      "blood_potency": "Starts at 1 for neonates; increases with age or XP.",
+      "hunger": "Starts at 1; increases with blood use (Rouse Checks)."
+    },
+    "mortal_specific": {
+      "archetypes": ["Detective", "Journalist", "Academic", "Criminal", "Doctor", "Activist"],
+      "advantages": "May take Backgrounds such as Allies, Contacts, Resources.",
+      "resonance": "Emotional or spiritual flavor of their blood; affects vampires feeding on them.",
+      "health": "Stamina + 3",
+      "willpower": "Composure + Resolve",
+      "ambition": "Long-term goal driving the mortal's life."
+    },
+    "advantages_flaws": {
+      "examples": {
+        "advantages": ["Allies", "Contacts", "Haven", "Resources", "Status"],
+        "flaws": ["Enemy", "Dark Secret", "Addiction", "Compulsion", "Hunted"]
+      },
+      "note": "Usually balance points: 7 Advantages and 2 Flaws for vampires; 6 and 1 for mortals."
+    },
+    "derived_traits": {
+      "health": "Stamina + 3",
+      "willpower": "Composure + Resolve",
+      "humanity": "Usually 7 for vampires; 5–7 for mortals"
+    },
+    "final_notes": {
+      "chronicle_tenets": "Shared moral codes of the story setting.",
+      "convictions": "Personal principles anchoring Humanity.",
+      "touchstones": "Humans or memories keeping the character humane."
+    }
+  }
+}
