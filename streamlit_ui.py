@@ -325,6 +325,7 @@ class StreamlitUI:
                 self._create_character()
                 st.session_state.session_started = True
                 st.session_state.show_character_creation = False
+                st.session_state.current_character = st.session_state.character_data.copy()
                 st.session_state.chat_history = []
                 st.rerun()
             else:
