@@ -128,8 +128,15 @@ class StreamlitUI:
         
         # Handle ENTER key press using form
         if player_input and player_input.strip():
-            self._process_startup_input(player_input)
-            st.rerun()
+            if not st.session_state.get("processing_startup", False):
+                st.session_state.processing_startup = True
+                self._process_startup_input(player_input)
+                # Clear the input after processing
+                st.session_state.startup_input = ""
+                st.rerun()
+            else:
+                # Reset processing flag after rerun
+                st.session_state.processing_startup = False
         
         # Character creation screen
         if st.session_state.get('show_character_creation', False):
@@ -229,8 +236,15 @@ class StreamlitUI:
         
         # Handle ENTER key press using form
         if player_input and player_input.strip():
-            self._process_character_creation_input(player_input)
-            st.rerun()
+            if not st.session_state.get("processing_character_creation", False):
+                st.session_state.processing_character_creation = True
+                self._process_character_creation_input(player_input)
+                # Clear the input after processing
+                st.session_state.character_creation_input = ""
+                st.rerun()
+            else:
+                # Reset processing flag after rerun
+                st.session_state.processing_character_creation = False
 
     def _process_character_creation_input(self, player_input: str):
         """Process player input during character creation with LLM validation"""
@@ -538,8 +552,15 @@ class StreamlitUI:
         
         # Handle ENTER key press using form
         if player_input and player_input.strip():
-            self._process_character_selection_input(player_input)
-            st.rerun()
+            if not st.session_state.get("processing_character_selection", False):
+                st.session_state.processing_character_selection = True
+                self._process_character_selection_input(player_input)
+                # Clear the input after processing
+                st.session_state.character_selection_input = ""
+                st.rerun()
+            else:
+                # Reset processing flag after rerun
+                st.session_state.processing_character_selection = False
 
     def _process_character_selection_input(self, player_input: str):
         """Process player input during character selection"""
@@ -617,8 +638,15 @@ class StreamlitUI:
         
         # Handle ENTER key press using form
         if player_input and player_input.strip():
-            self._process_main_chat_input(player_input)
-            st.rerun()
+            if not st.session_state.get("processing_main_chat", False):
+                st.session_state.processing_main_chat = True
+                self._process_main_chat_input(player_input)
+                # Clear the input after processing
+                st.session_state.player_input = ""
+                st.rerun()
+            else:
+                # Reset processing flag after rerun
+                st.session_state.processing_main_chat = False
 
     def _process_main_chat_input(self, player_input: str):
         """Process player input in main chat"""
