@@ -13,42 +13,8 @@ requests>=2.31.0
 # Markdown processing
 markdown>=3.5.0
 
-# JSON handling (built-in, but listed for clarity)
-# json
+# Configuration management
+python-dotenv>=1.0.0
 
-# File system operations (built-in)
-# os
-# datetime
-
-# Logging (built-in)
-# logging
-
-# Random number generation (built-in)
-# random
-
-# Regular expressions (built-in)
-# re
-
-# Type hints (built-in)
-# typing
-
-# Hash functions (built-in)
-# hashlib
-
-# Time operations (built-in)
-# time
-
-# Optional: For enhanced image processing
-# Pillow>=10.0.0
-
-# Optional: For advanced dice rolling
-# numpy>=1.24.0
-
-# Optional: For enhanced logging
-# colorlog>=6.7.0
-
-# Optional: For configuration management
-# python-dotenv>=1.0.0
-
-# Optional: For enhanced markdown
-# markdown-extensions>=0.1.0
+# Development dependencies (install with: pip install -e ".[dev]")
+# See pyproject.toml for full development dependencies
