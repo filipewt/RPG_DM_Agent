@@ -114,7 +114,12 @@ class StreamlitUI:
         
         with col1:
             # Clear input if it was just processed
-            input_value = "" if st.session_state.get("processing_startup", False) else None
+            if st.session_state.get("processing_startup", False):
+                input_value = ""
+                # Reset the processing flag
+                st.session_state.processing_startup = False
+            else:
+                input_value = None
             player_input = st.text_input(
                 "Your response:",
                 placeholder="Type what you want to do...",
@@ -135,9 +140,6 @@ class StreamlitUI:
                 st.session_state.processing_startup = True
                 self._process_startup_input(player_input)
                 st.rerun()
-            else:
-                # Reset processing flag after rerun
-                st.session_state.processing_startup = False
         
         # Character creation screen
         if st.session_state.get('show_character_creation', False):
@@ -217,7 +219,12 @@ class StreamlitUI:
         
         with col1:
             # Clear input if it was just processed
-            input_value = "" if st.session_state.get("processing_character_creation", False) else None
+            if st.session_state.get("processing_character_creation", False):
+                input_value = ""
+                # Reset the processing flag
+                st.session_state.processing_character_creation = False
+            else:
+                input_value = None
             player_input = st.text_input(
                 "Your response:",
                 placeholder="Type your answer here...",
@@ -244,9 +251,6 @@ class StreamlitUI:
                 st.session_state.processing_character_creation = True
                 self._process_character_creation_input(player_input)
                 st.rerun()
-            else:
-                # Reset processing flag after rerun
-                st.session_state.processing_character_creation = False
 
     def _process_character_creation_input(self, player_input: str):
         """Process player input during character creation with LLM validation"""
@@ -282,7 +286,7 @@ class StreamlitUI:
                 st.session_state.character_creation_step = 2
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': f"Fascinating! A {player_input.strip()}. Now, what drives **{st.session_state.character_data['name']}**? What do they want to achieve? What is their motivation?",
+                    'content': f"Fascinating! A {player_input.strip()}. Now, what drives {st.session_state.character_data['name']}? What do they want to achieve? What is their motivation?",
                     'timestamp': datetime.now().isoformat()
                 })
             else:
@@ -334,7 +338,7 @@ class StreamlitUI:
                 st.session_state.character_creation_step = 4
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': f"Excellent choice! **{st.session_state.character_data['name']}** the {selected_clan} is ready. Let's start your adventure!",
+                    'content': f"Excellent choice! {st.session_state.character_data['name']} the {selected_clan} is ready. Let's start your adventure!",
                     'timestamp': datetime.now().isoformat()
                 })
                 # Create character and start adventure
@@ -534,7 +538,12 @@ class StreamlitUI:
         
         with col1:
             # Clear input if it was just processed
-            input_value = "" if st.session_state.get("processing_character_selection", False) else None
+            if st.session_state.get("processing_character_selection", False):
+                input_value = ""
+                # Reset the processing flag
+                st.session_state.processing_character_selection = False
+            else:
+                input_value = None
             player_input = st.text_input(
                 "Your response:",
                 placeholder="Type the character name...",
@@ -561,9 +570,6 @@ class StreamlitUI:
                 st.session_state.processing_character_selection = True
                 self._process_character_selection_input(player_input)
                 st.rerun()
-            else:
-                # Reset processing flag after rerun
-                st.session_state.processing_character_selection = False
 
     def _process_character_selection_input(self, player_input: str):
         """Process player input during character selection"""
@@ -627,7 +633,12 @@ class StreamlitUI:
         
         with col1:
             # Clear input if it was just processed
-            input_value = "" if st.session_state.get("processing_main_chat", False) else None
+            if st.session_state.get("processing_main_chat", False):
+                input_value = ""
+                # Reset the processing flag
+                st.session_state.processing_main_chat = False
+            else:
+                input_value = None
             player_input = st.text_input(
                 "What do you want to do?",
                 placeholder="Describe your action...",
@@ -648,9 +659,6 @@ class StreamlitUI:
                 st.session_state.processing_main_chat = True
                 self._process_main_chat_input(player_input)
                 st.rerun()
-            else:
-                # Reset processing flag after rerun
-                st.session_state.processing_main_chat = False
 
     def _process_main_chat_input(self, player_input: str):
         """Process player input in main chat"""
