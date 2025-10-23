@@ -349,7 +349,7 @@ class StreamlitUI:
             st.session_state.dm_agent.start_new_adventure(
                 character_data['name'], 
                 character_data.get('clan'),
-                f"{character_data['name']} || Journey"
+                f"{character_data['name']}'s Journey"
             )
             
         except Exception as e:
@@ -575,7 +575,7 @@ class StreamlitUI:
         if st.session_state.current_character:
             character_name = st.session_state.current_character.get('name', 'Unknown')
         
-        st.markdown(f"## 💬 {character_name} || Journey")
+        st.markdown(f"## 💬 {character_name}'s Journey")
         
         # Chat history - Show only DM messages
         for message in st.session_state.chat_history:
