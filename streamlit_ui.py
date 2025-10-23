@@ -104,7 +104,6 @@ class StreamlitUI:
                 'content': "Welcome to the World of Darkness! I'm your Dungeon Master, and I'm here to guide you through your vampire adventure. What would you like to do?\n\n• **Start a new adventure** - Create a new character and begin your journey\n• **Continue an adventure** - Resume with an existing character\n\nJust tell me what you'd like to do!",
                 'timestamp': datetime.now().isoformat()
             })
-            st.rerun()
         
         # Input area
         st.markdown("---")
@@ -140,6 +139,21 @@ class StreamlitUI:
                 st.session_state.processing_startup = True
                 self._process_startup_input(player_input)
                 st.rerun()
+        
+        # Auto-scroll to bottom and focus input
+        st.markdown("""
+        <script>
+        setTimeout(function() {
+            window.scrollTo(0, document.body.scrollHeight);
+            // Focus on the input field
+            const input = document.querySelector('input[data-testid="stTextInput"]');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
+        </script>
+        <div id="chat-bottom"></div>
+        """, unsafe_allow_html=True)
         
         # Character creation screen
         if st.session_state.get('show_character_creation', False):
@@ -209,7 +223,6 @@ class StreamlitUI:
                 'content': "Welcome to character creation! I'll guide you through creating your vampire character step by step. We'll go through each aspect carefully, and I'll provide examples and advice along the way.\n\nLet's start with the most important part - your character's name. This will be how you're known in the vampire world.\n\n**Examples of good vampire names:**\n• Marcus Blackwood\n• Elena Nightshade\n• Alexander Cross\n• Victoria Moon\n\nWhat would you like to name your character?",
                 'timestamp': datetime.now().isoformat()
             })
-            st.rerun()
         
         # Input area
         st.markdown("---")
@@ -251,6 +264,21 @@ class StreamlitUI:
                 st.session_state.processing_character_creation = True
                 self._process_character_creation_input(player_input)
                 st.rerun()
+        
+        # Auto-scroll to bottom and focus input
+        st.markdown("""
+        <script>
+        setTimeout(function() {
+            window.scrollTo(0, document.body.scrollHeight);
+            // Focus on the input field
+            const input = document.querySelector('input[data-testid="stTextInput"]');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
+        </script>
+        <div id="chat-bottom"></div>
+        """, unsafe_allow_html=True)
 
     def _process_character_creation_input(self, player_input: str):
         """Process player input during character creation with LLM validation"""
@@ -637,7 +665,6 @@ class StreamlitUI:
                 'content': "Welcome back! I see you have some existing characters. Which one would you like to continue with?\n\n• Test Character\n\nJust tell me the name of the character you want to play.",
                 'timestamp': datetime.now().isoformat()
             })
-            st.rerun()
         
         # Input area
         st.markdown("---")
@@ -679,6 +706,21 @@ class StreamlitUI:
                 st.session_state.processing_character_selection = True
                 self._process_character_selection_input(player_input)
                 st.rerun()
+        
+        # Auto-scroll to bottom and focus input
+        st.markdown("""
+        <script>
+        setTimeout(function() {
+            window.scrollTo(0, document.body.scrollHeight);
+            // Focus on the input field
+            const input = document.querySelector('input[data-testid="stTextInput"]');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
+        </script>
+        <div id="chat-bottom"></div>
+        """, unsafe_allow_html=True)
 
     def _process_character_selection_input(self, player_input: str):
         """Process player input during character selection"""
@@ -768,6 +810,21 @@ class StreamlitUI:
                 st.session_state.processing_main_chat = True
                 self._process_main_chat_input(player_input)
                 st.rerun()
+        
+        # Auto-scroll to bottom and focus input
+        st.markdown("""
+        <script>
+        setTimeout(function() {
+            window.scrollTo(0, document.body.scrollHeight);
+            // Focus on the input field
+            const input = document.querySelector('input[data-testid="stTextInput"]');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
+        </script>
+        <div id="chat-bottom"></div>
+        """, unsafe_allow_html=True)
 
     def _process_main_chat_input(self, player_input: str):
         """Process player input in main chat"""
