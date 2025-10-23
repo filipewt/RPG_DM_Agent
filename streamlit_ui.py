@@ -109,17 +109,19 @@ class StreamlitUI:
         # Input area
         st.markdown("---")
         
-        # Player input
-        player_input = st.text_input(
-            "Your response:",
-            placeholder="Type what you want to do...",
-            key="startup_input"
-        )
-        
+        # Player input with button
         col1, col2 = st.columns([5, 1])
         
         with col1:
-            if st.button("▶️", use_container_width=True, key="startup_send_btn", help="Send message"):
+            player_input = st.text_input(
+                "Your response:",
+                placeholder="Type what you want to do...",
+                key="startup_input",
+                label_visibility="collapsed"
+            )
+        
+        with col2:
+            if st.button("▶️", key="startup_send_btn", help="Send message"):
                 if player_input.strip():
                     self._process_startup_input(player_input)
                     st.rerun()
@@ -202,23 +204,25 @@ class StreamlitUI:
         # Input area
         st.markdown("---")
         
-        # Player input
-        player_input = st.text_input(
-            "Your response:",
-            placeholder="Type your answer here...",
-            key="character_creation_input"
-        )
-        
+        # Player input with buttons
         col1, col2, col3 = st.columns([5, 1, 1])
         
         with col1:
-            if st.button("▶️", use_container_width=True, key="character_creation_send_btn", help="Send message"):
+            player_input = st.text_input(
+                "Your response:",
+                placeholder="Type your answer here...",
+                key="character_creation_input",
+                label_visibility="collapsed"
+            )
+        
+        with col2:
+            if st.button("▶️", key="character_creation_send_btn", help="Send message"):
                 if player_input.strip():
                     self._process_character_creation_input(player_input)
                     st.rerun()
         
-        with col2:
-            if st.button("◀️", use_container_width=True, key="character_creation_back_btn", help="Back to Start"):
+        with col3:
+            if st.button("◀️", key="character_creation_back_btn", help="Back to Start"):
                 st.session_state.show_character_creation = False
                 st.session_state.character_creation_chat = []
                 st.rerun()
@@ -508,23 +512,25 @@ class StreamlitUI:
         # Input area
         st.markdown("---")
         
-        # Player input
-        player_input = st.text_input(
-            "Your response:",
-            placeholder="Type the character name...",
-            key="character_selection_input"
-        )
-        
+        # Player input with buttons
         col1, col2, col3 = st.columns([5, 1, 1])
         
         with col1:
-            if st.button("▶️", use_container_width=True, key="character_selection_send_btn", help="Send message"):
+            player_input = st.text_input(
+                "Your response:",
+                placeholder="Type the character name...",
+                key="character_selection_input",
+                label_visibility="collapsed"
+            )
+        
+        with col2:
+            if st.button("▶️", key="character_selection_send_btn", help="Send message"):
                 if player_input.strip():
                     self._process_character_selection_input(player_input)
                     st.rerun()
         
-        with col2:
-            if st.button("◀️", use_container_width=True, key="character_selection_back_btn", help="Back to Start"):
+        with col3:
+            if st.button("◀️", key="character_selection_back_btn", help="Back to Start"):
                 st.session_state.show_character_selection = False
                 st.session_state.character_selection_chat = []
                 st.rerun()
@@ -591,17 +597,19 @@ class StreamlitUI:
         # Input area
         st.markdown("---")
         
-        # Player input
-        player_input = st.text_input(
-            "What do you want to do?",
-            placeholder="Describe your action...",
-            key="player_input"
-        )
-        
+        # Player input with button
         col1, col2 = st.columns([5, 1])
         
         with col1:
-            if st.button("▶️", use_container_width=True, key="main_chat_send_btn", help="Send message"):
+            player_input = st.text_input(
+                "What do you want to do?",
+                placeholder="Describe your action...",
+                key="player_input",
+                label_visibility="collapsed"
+            )
+        
+        with col2:
+            if st.button("▶️", key="main_chat_send_btn", help="Send message"):
                 if player_input.strip():
                     self._process_main_chat_input(player_input)
                     st.rerun()
