@@ -278,7 +278,11 @@ class StreamlitUI:
             self.character_manager.save_character(character_data)
             
             # Start adventure
-            st.session_state.dm_agent.start_new_adventure(character_data)
+            st.session_state.dm_agent.start_new_adventure(
+                character_data['name'], 
+                character_data.get('clan'),
+                f"{character_data['name']} || Journey"
+            )
             
         except Exception as e:
             st.error(f"Error creating character: {str(e)}")
