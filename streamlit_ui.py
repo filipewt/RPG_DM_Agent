@@ -124,9 +124,8 @@ class StreamlitUI:
                     self._process_startup_input(player_input)
                     st.rerun()
         
-        # Handle ENTER key press
-        if player_input and player_input != st.session_state.get("last_startup_input", ""):
-            st.session_state.last_startup_input = player_input
+        # Handle ENTER key press using form
+        if player_input and player_input.strip():
             self._process_startup_input(player_input)
             st.rerun()
         
@@ -224,9 +223,8 @@ class StreamlitUI:
                 st.session_state.character_creation_chat = []
                 st.rerun()
         
-        # Handle ENTER key press
-        if player_input and player_input != st.session_state.get("last_character_creation_input", ""):
-            st.session_state.last_character_creation_input = player_input
+        # Handle ENTER key press using form
+        if player_input and player_input.strip():
             self._process_character_creation_input(player_input)
             st.rerun()
 
@@ -531,9 +529,8 @@ class StreamlitUI:
                 st.session_state.character_selection_chat = []
                 st.rerun()
         
-        # Handle ENTER key press
-        if player_input and player_input != st.session_state.get("last_character_selection_input", ""):
-            st.session_state.last_character_selection_input = player_input
+        # Handle ENTER key press using form
+        if player_input and player_input.strip():
             self._process_character_selection_input(player_input)
             st.rerun()
 
@@ -609,9 +606,8 @@ class StreamlitUI:
                     self._process_main_chat_input(player_input)
                     st.rerun()
         
-        # Handle ENTER key press
-        if player_input and player_input != st.session_state.get("last_player_input", ""):
-            st.session_state.last_player_input = player_input
+        # Handle ENTER key press using form
+        if player_input and player_input.strip():
             self._process_main_chat_input(player_input)
             st.rerun()
 
