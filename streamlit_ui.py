@@ -113,11 +113,14 @@ class StreamlitUI:
         col1, col2 = st.columns([5, 1])
         
         with col1:
+            # Clear input if it was just processed
+            input_value = "" if st.session_state.get("processing_startup", False) else None
             player_input = st.text_input(
                 "Your response:",
                 placeholder="Type what you want to do...",
                 key="startup_input",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                value=input_value
             )
         
         with col2:
@@ -131,8 +134,6 @@ class StreamlitUI:
             if not st.session_state.get("processing_startup", False):
                 st.session_state.processing_startup = True
                 self._process_startup_input(player_input)
-                # Clear the input after processing
-                st.session_state.startup_input = ""
                 st.rerun()
             else:
                 # Reset processing flag after rerun
@@ -215,11 +216,14 @@ class StreamlitUI:
         col1, col2, col3 = st.columns([5, 1, 1])
         
         with col1:
+            # Clear input if it was just processed
+            input_value = "" if st.session_state.get("processing_character_creation", False) else None
             player_input = st.text_input(
                 "Your response:",
                 placeholder="Type your answer here...",
                 key="character_creation_input",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                value=input_value
             )
         
         with col2:
@@ -239,8 +243,6 @@ class StreamlitUI:
             if not st.session_state.get("processing_character_creation", False):
                 st.session_state.processing_character_creation = True
                 self._process_character_creation_input(player_input)
-                # Clear the input after processing
-                st.session_state.character_creation_input = ""
                 st.rerun()
             else:
                 # Reset processing flag after rerun
@@ -531,11 +533,14 @@ class StreamlitUI:
         col1, col2, col3 = st.columns([5, 1, 1])
         
         with col1:
+            # Clear input if it was just processed
+            input_value = "" if st.session_state.get("processing_character_selection", False) else None
             player_input = st.text_input(
                 "Your response:",
                 placeholder="Type the character name...",
                 key="character_selection_input",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                value=input_value
             )
         
         with col2:
@@ -555,8 +560,6 @@ class StreamlitUI:
             if not st.session_state.get("processing_character_selection", False):
                 st.session_state.processing_character_selection = True
                 self._process_character_selection_input(player_input)
-                # Clear the input after processing
-                st.session_state.character_selection_input = ""
                 st.rerun()
             else:
                 # Reset processing flag after rerun
@@ -623,11 +626,14 @@ class StreamlitUI:
         col1, col2 = st.columns([5, 1])
         
         with col1:
+            # Clear input if it was just processed
+            input_value = "" if st.session_state.get("processing_main_chat", False) else None
             player_input = st.text_input(
                 "What do you want to do?",
                 placeholder="Describe your action...",
                 key="player_input",
-                label_visibility="collapsed"
+                label_visibility="collapsed",
+                value=input_value
             )
         
         with col2:
@@ -641,8 +647,6 @@ class StreamlitUI:
             if not st.session_state.get("processing_main_chat", False):
                 st.session_state.processing_main_chat = True
                 self._process_main_chat_input(player_input)
-                # Clear the input after processing
-                st.session_state.player_input = ""
                 st.rerun()
             else:
                 # Reset processing flag after rerun
