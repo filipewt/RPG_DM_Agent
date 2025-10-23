@@ -206,7 +206,7 @@ class StreamlitUI:
         if not st.session_state.character_creation_chat:
             st.session_state.character_creation_chat.append({
                 'role': 'dm',
-                'content': "Welcome to character creation! I'll guide you through creating your vampire character step by step. Let's start with the basics - what's your character's name?",
+                'content': "Welcome to character creation! I'll guide you through creating your vampire character step by step. We'll go through each aspect carefully, and I'll provide examples and advice along the way.\n\nLet's start with the most important part - your character's name. This will be how you're known in the vampire world.\n\n**Examples of good vampire names:**\n• Marcus Blackwood\n• Elena Nightshade\n• Alexander Cross\n• Victoria Moon\n\nWhat would you like to name your character?",
                 'timestamp': datetime.now().isoformat()
             })
             st.rerun()
@@ -266,61 +266,136 @@ class StreamlitUI:
         # Process based on current step
         if current_step == 0:  # Name step
             if self._validate_name_input(player_input):
-                st.session_state.character_data = {'name': player_input.strip()}
+                character_name = player_input.strip()
+                st.session_state.character_data = {'name': character_name}
+                st.session_state.character_creation_step = 0.5  # Confirmation step
+                st.session_state.character_creation_chat.append({
+                    'role': 'dm',
+                    'content': f"Perfect! So your character's name is **{character_name}**. That's a great choice!\n\nBefore we move on, let me ask - are you happy with this name? If yes, just say 'yes' or 'confirm' and we'll move to the next step. If you'd like to change it, just tell me the new name you'd prefer.",
+                    'timestamp': datetime.now().isoformat()
+                })
+            else:
+                st.session_state.character_creation_chat.append({
+                    'role': 'dm',
+                    'content': "That doesn't look like a proper character name. Please provide a clear name for your character.\n\n**Tips for a good vampire name:**\n• Use a first name and optionally a last name\n• Avoid numbers or special characters\n• Think about what fits the vampire aesthetic\n• Examples: Marcus, Elena, Alexander, Victoria\n\nWhat would you like to name your character?",
+                    'timestamp': datetime.now().isoformat()
+                })
+        
+        elif current_step == 0.5:  # Name confirmation step
+            if any(word in player_input.lower() for word in ['yes', 'confirm', 'continue', 'next', 'good', 'perfect']):
                 st.session_state.character_creation_step = 1
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': f"Excellent! So your character is named **{player_input.strip()}**. Now, tell me about who they were before becoming a vampire. What did they do for a living? What was their background?",
+                    'content': f"Excellent! {st.session_state.character_data['name']} it is!\n\nNow let's talk about your character's background. Before becoming a vampire, what did {st.session_state.character_data['name']} do for a living? What was their profession or role in society?\n\n**Examples of vampire backgrounds:**\n• Former detective or police officer\n• Art gallery owner or curator\n• Street musician or performer\n• Business executive or entrepreneur\n• Scholar or researcher\n• Criminal or thief\n\nWhat was {st.session_state.character_data['name']}'s background before becoming a vampire?",
                     'timestamp': datetime.now().isoformat()
                 })
             else:
-                st.session_state.character_creation_chat.append({
-                    'role': 'dm',
-                    'content': "That doesn't look like a proper character name. Please provide a clear name for your character, like 'Marcus' or 'Elena'.",
-                    'timestamp': datetime.now().isoformat()
-                })
+                # Treat as new name
+                if self._validate_name_input(player_input):
+                    st.session_state.character_data['name'] = player_input.strip()
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': f"Great! So your character's name is **{player_input.strip()}**. Are you happy with this name? If yes, just say 'yes' or 'confirm' and we'll move to the next step.",
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': "That doesn't look like a proper character name. Please provide a clear name for your character, or if you're happy with the current name, just say 'yes' to continue.",
+                        'timestamp': datetime.now().isoformat()
+                    })
         
         elif current_step == 1:  # Concept step
             if self._validate_concept_input(player_input):
-                st.session_state.character_data['concept'] = player_input.strip()
-                st.session_state.character_creation_step = 2
+                concept = player_input.strip()
+                st.session_state.character_data['concept'] = concept
+                st.session_state.character_creation_step = 1.5  # Confirmation step
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': f"Fascinating! A {player_input.strip()}. Now, what drives {st.session_state.character_data['name']}? What do they want to achieve? What is their motivation?",
+                    'content': f"Interesting! So {st.session_state.character_data['name']} was a {concept}. That gives them a unique perspective on the vampire world.\n\nAre you happy with this background? If yes, just say 'yes' or 'confirm' and we'll move to the next step. If you'd like to change it, just tell me the new background you'd prefer.",
                     'timestamp': datetime.now().isoformat()
                 })
             else:
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': "Please tell me about your character's background in more detail. What did they do for a living? For example: 'Former detective', 'Art gallery owner', or 'Street musician'.",
+                    'content': "Please tell me about your character's background in more detail. What did they do for a living?\n\n**Tips for a good background:**\n• Be specific about their profession or role\n• Think about how it might affect their vampire abilities\n• Consider what skills they might have developed\n\n**Examples:**\n• Former detective or police officer\n• Art gallery owner or curator\n• Street musician or performer\n• Business executive or entrepreneur\n\nWhat was {st.session_state.character_data['name']}'s background before becoming a vampire?",
                     'timestamp': datetime.now().isoformat()
                 })
         
-        elif current_step == 2:  # Motivation step
-            if self._validate_motivation_input(player_input):
-                st.session_state.character_data['motivation'] = player_input.strip()
-                st.session_state.character_creation_step = 3
-                clan_options = {
-                    'brujah': 'Rebels and fighters',
-                    'gangrel': 'Shapeshifters',
-                    'malkavian': 'Visionary seers',
-                    'nosferatu': 'Deformed spies',
-                    'toreador': 'Artists and socialites',
-                    'tremere': 'Blood sorcerers',
-                    'ventrue': 'Leaders and aristocrats'
-                }
-                clan_list = "\n".join([f"**{clan.title()}** - {desc}" for clan, desc in clan_options.items()])
+        elif current_step == 1.5:  # Concept confirmation step
+            if any(word in player_input.lower() for word in ['yes', 'confirm', 'continue', 'next', 'good', 'perfect']):
+                st.session_state.character_creation_step = 2
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': f"Perfect! Now let's choose your clan. In Vampire: The Masquerade, your clan defines your supernatural abilities. Here are the main options:\n\n{clan_list}\n\nWhich clan calls to you?",
+                    'content': f"Perfect! So {st.session_state.character_data['name']} was a {st.session_state.character_data['concept']}. That's a great foundation for your character!\n\nNow let's talk about what drives {st.session_state.character_data['name']}. What motivates them? What do they want to achieve in their new vampire life?\n\n**Examples of vampire motivations:**\n• Seek justice for the innocent\n• Protect their loved ones from danger\n• Gain power and influence in vampire society\n• Uncover ancient vampire secrets\n• Revenge against those who wronged them\n• Find their place in the vampire world\n\nWhat motivates {st.session_state.character_data['name']}?",
+                    'timestamp': datetime.now().isoformat()
+                })
+            else:
+                # Treat as new concept
+                if self._validate_concept_input(player_input):
+                    st.session_state.character_data['concept'] = player_input.strip()
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': f"Great! So {st.session_state.character_data['name']} was a {player_input.strip()}. Are you happy with this background? If yes, just say 'yes' or 'confirm' and we'll move to the next step.",
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': "Please provide a clear background for your character, or if you're happy with the current background, just say 'yes' to continue.",
+                        'timestamp': datetime.now().isoformat()
+                    })
+        
+        elif current_step == 2:  # Motivation step
+            if self._validate_motivation_input(player_input):
+                motivation = player_input.strip()
+                st.session_state.character_data['motivation'] = motivation
+                st.session_state.character_creation_step = 2.5  # Confirmation step
+                st.session_state.character_creation_chat.append({
+                    'role': 'dm',
+                    'content': f"Excellent! So {st.session_state.character_data['name']} is motivated by {motivation}. That's a powerful driving force for your character.\n\nAre you happy with this motivation? If yes, just say 'yes' or 'confirm' and we'll move to choosing your clan. If you'd like to change it, just tell me the new motivation you'd prefer.",
                     'timestamp': datetime.now().isoformat()
                 })
             else:
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': "Please tell me more about what drives your character. What do they want to achieve? For example: 'Seek justice', 'Protect the innocent', or 'Gain power'.",
+                    'content': "Please tell me more about what drives your character. What do they want to achieve?\n\n**Tips for a good motivation:**\n• Be specific about their goals\n• Think about what drives them forward\n• Consider how it affects their vampire life\n\n**Examples:**\n• Seek justice for the innocent\n• Protect their loved ones from danger\n• Gain power and influence in vampire society\n• Uncover ancient vampire secrets\n• Revenge against those who wronged them\n\nWhat motivates {st.session_state.character_data['name']}?",
                     'timestamp': datetime.now().isoformat()
                 })
+        
+        elif current_step == 2.5:  # Motivation confirmation step
+            if any(word in player_input.lower() for word in ['yes', 'confirm', 'continue', 'next', 'good', 'perfect']):
+                st.session_state.character_creation_step = 3
+                clan_options = {
+                    'brujah': 'Rebels and fighters - passionate and rebellious',
+                    'gangrel': 'Shapeshifters - wild and animalistic',
+                    'malkavian': 'Visionary seers - prophetic and insightful',
+                    'nosferatu': 'Deformed spies - hideous but powerful',
+                    'toreador': 'Artists and socialites - beautiful and cultured',
+                    'tremere': 'Blood sorcerers - magical and secretive',
+                    'ventrue': 'Leaders and aristocrats - noble and commanding'
+                }
+                clan_list = "\n".join([f"• **{clan.title()}** - {desc}" for clan, desc in clan_options.items()])
+                st.session_state.character_creation_chat.append({
+                    'role': 'dm',
+                    'content': f"Perfect! So {st.session_state.character_data['name']} is motivated by {st.session_state.character_data['motivation']}. That's a great foundation!\n\nNow for the final step - choosing your clan. In Vampire: The Masquerade, your clan defines your supernatural abilities and personality traits.\n\nHere are the main vampire clans:\n\n{clan_list}\n\nWhich clan do you think fits {st.session_state.character_data['name']} best? You can choose by name or describe what appeals to you.",
+                    'timestamp': datetime.now().isoformat()
+                })
+            else:
+                # Treat as new motivation
+                if self._validate_motivation_input(player_input):
+                    st.session_state.character_data['motivation'] = player_input.strip()
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': f"Great! So {st.session_state.character_data['name']} is motivated by {player_input.strip()}. Are you happy with this motivation? If yes, just say 'yes' or 'confirm' and we'll move to choosing your clan.",
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': "Please provide a clear motivation for your character, or if you're happy with the current motivation, just say 'yes' to continue.",
+                        'timestamp': datetime.now().isoformat()
+                    })
         
         elif current_step == 3:  # Clan selection
             clan_options = {
@@ -335,10 +410,25 @@ class StreamlitUI:
             if self._validate_clan_selection(player_input, clan_options):
                 selected_clan = self._extract_clan_from_input(player_input, clan_options)
                 st.session_state.character_data['clan'] = selected_clan
+                st.session_state.character_creation_step = 3.5  # Confirmation step
+                st.session_state.character_creation_chat.append({
+                    'role': 'dm',
+                    'content': f"Excellent choice! So {st.session_state.character_data['name']} will be a {selected_clan}. That's a great fit for their background as a {st.session_state.character_data['concept']}.\n\nAre you happy with this clan choice? If yes, just say 'yes' or 'confirm' and we'll finalize your character and start your adventure!",
+                    'timestamp': datetime.now().isoformat()
+                })
+            else:
+                st.session_state.character_creation_chat.append({
+                    'role': 'dm',
+                    'content': "Please choose one of the available vampire clans:\n\n• **Brujah** - Rebels and fighters\n• **Gangrel** - Shapeshifters\n• **Malkavian** - Visionary seers\n• **Nosferatu** - Deformed spies\n• **Toreador** - Artists and socialites\n• **Tremere** - Blood sorcerers\n• **Ventrue** - Leaders and aristocrats\n\nWhich clan appeals to you?",
+                    'timestamp': datetime.now().isoformat()
+                })
+        
+        elif current_step == 3.5:  # Clan confirmation step
+            if any(word in player_input.lower() for word in ['yes', 'confirm', 'continue', 'next', 'good', 'perfect']):
                 st.session_state.character_creation_step = 4
                 st.session_state.character_creation_chat.append({
                     'role': 'dm',
-                    'content': f"Excellent choice! {st.session_state.character_data['name']} the {selected_clan} is ready. Let's start your adventure!",
+                    'content': f"Perfect! Your character is complete!\n\n**{st.session_state.character_data['name']}**\n• Background: {st.session_state.character_data['concept']}\n• Motivation: {st.session_state.character_data['motivation']}\n• Clan: {st.session_state.character_data['clan']}\n\nLet's start your adventure!",
                     'timestamp': datetime.now().isoformat()
                 })
                 # Create character and start adventure
@@ -349,11 +439,30 @@ class StreamlitUI:
                 st.session_state.chat_history = []
                 st.rerun()
             else:
-                st.session_state.character_creation_chat.append({
-                    'role': 'dm',
-                    'content': "Please choose one of the available clans: Brujah, Gangrel, Malkavian, Nosferatu, Toreador, Tremere, or Ventrue.",
-                    'timestamp': datetime.now().isoformat()
-                })
+                # Treat as new clan selection
+                clan_options = {
+                    'brujah': 'Brujah',
+                    'gangrel': 'Gangrel', 
+                    'malkavian': 'Malkavian',
+                    'nosferatu': 'Nosferatu',
+                    'toreador': 'Toreador',
+                    'tremere': 'Tremere',
+                    'ventrue': 'Ventrue'
+                }
+                if self._validate_clan_selection(player_input, clan_options):
+                    selected_clan = self._extract_clan_from_input(player_input, clan_options)
+                    st.session_state.character_data['clan'] = selected_clan
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': f"Great! So {st.session_state.character_data['name']} will be a {selected_clan}. Are you happy with this clan choice? If yes, just say 'yes' or 'confirm' and we'll start your adventure!",
+                        'timestamp': datetime.now().isoformat()
+                    })
+                else:
+                    st.session_state.character_creation_chat.append({
+                        'role': 'dm',
+                        'content': "Please choose one of the available vampire clans, or if you're happy with the current clan choice, just say 'yes' to continue.",
+                        'timestamp': datetime.now().isoformat()
+                    })
 
     def _create_character(self):
         """Create a new character using collected data"""
