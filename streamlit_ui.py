@@ -75,7 +75,11 @@ class StreamlitUI:
         """, unsafe_allow_html=True)
         
         # Main application logic
-        if not st.session_state.session_started:
+        if st.session_state.get('show_character_creation', False):
+            self.render_character_creation()
+        elif st.session_state.get('show_character_selection', False):
+            self.render_character_selection()
+        elif not st.session_state.session_started:
             self.render_startup_screen()
         else:
             self.render_main_chat()
@@ -318,6 +322,7 @@ class StreamlitUI:
                 # Create character and start adventure
                 self._create_character()
                 st.session_state.session_started = True
+                st.session_state.show_character_creation = False
                 st.session_state.chat_history = []
                 st.rerun()
             else:
@@ -548,6 +553,7 @@ class StreamlitUI:
                 'timestamp': datetime.now().isoformat()
             })
             st.session_state.session_started = True
+            st.session_state.show_character_selection = False
             st.session_state.current_character = {'name': 'Test Character'}
             st.session_state.chat_history = []
             st.rerun()
